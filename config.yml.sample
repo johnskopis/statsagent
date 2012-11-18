@@ -1,0 +1,43 @@
+logging_config:
+  loggers:
+    - name: root
+      level: info
+      additive: false
+      appenders:
+        - stderr
+        - stdout
+  appenders:
+    - type: Stderr
+      name: stderr
+      layout:
+        type: Pattern
+        date_method: to_s
+        pattern: '[%d] %c %-5l: %m\n'
+      level: error
+    - type: Stdout
+      name: stdout
+      layout:
+        type: Pattern
+        date_method: to_s
+        pattern: '[%d] %c %-5l: %m\n'
+      level: debug
+graphite:
+  host: foobarhost
+collectors:
+  system:
+    - interval: 60
+      type: loadavg
+    - interval: 60
+      type: memory
+      keys: MemFree,Buffers,Cached,SwapTotal,SwapFree
+  mysql:
+    - interval: 10
+      type: stats
+      host: localhost
+      username: nagios
+      password: nagios
+    - interval: 3600
+      type: variables
+      host: localhost
+      username: nagios
+      password: nagios
